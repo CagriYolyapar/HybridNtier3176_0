@@ -16,7 +16,9 @@ namespace Project.Entities.Models
 
         //Relational Properties
         public virtual Category Category { get; set; }
-        
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+
 
 
     }

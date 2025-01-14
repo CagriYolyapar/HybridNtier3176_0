@@ -16,6 +16,7 @@ namespace Project.Entities.Models
 
         //Relational Properties
         public virtual AppUser AppUser { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
 
 
