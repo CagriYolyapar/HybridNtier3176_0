@@ -12,7 +12,7 @@ using Project.Dal.ContextClasses;
 namespace Project.Dal.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20250114111728_Mig1")]
+    [Migration("20250115081247_Mig1")]
     partial class Mig1
     {
         /// <inheritdoc />
@@ -56,6 +56,15 @@ namespace Project.Dal.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "4123f3e6-ae58-4ef7-b62b-7a4ea6f80575",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -140,6 +149,13 @@ namespace Project.Dal.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -242,11 +258,38 @@ namespace Project.Dal.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ActivationCode = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ConcurrencyStamp = "26dfa73f-cf49-452b-846b-ce057707cf31",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "cagri@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CAGRI@EMAIL.COM",
+                            NormalizedUserName = "CGR123",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGjQ/59VKJdA0XlqVXaRosH24hhp7k66xfaSA4nHpDsPCkXnEXMAcr6kWpl4/nZyhA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f1dba81-7c90-48b8-8be3-c31c58c3af5c",
+                            Status = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "cgr123"
+                        });
                 });
 
             modelBuilder.Entity("Project.Entities.Models.AppUserProfile", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -270,6 +313,10 @@ namespace Project.Dal.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
 
                     b.ToTable("AppUserProfiles");
                 });
@@ -305,6 +352,88 @@ namespace Project.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryName = "Music",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Lambadaki lakin dağılımı blanditiis layıkıyla voluptatem voluptatum bilgisayarı kalemi ipsum.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryName = "Health",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Otobüs anlamsız yaptı çarpan ışık ışık anlamsız praesentium sed ea.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryName = "Sports",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Değerli orta değirmeni adresini gülüyorum çobanın aut gidecekmiş orta beğendim.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryName = "Movies",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Doğru suscipit gül vel karşıdakine exercitationem consequatur molestiae yaptı koşuyorlar.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryName = "Books",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Öyle okuma suscipit labore perferendis dolayı quam ipsam sıla bilgisayarı.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryName = "Industrial",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Umut kutusu sit mıknatıslı sit un adipisci göze sıla anlamsız.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryName = "Beauty",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Enim sıla ad ex neque ona bilgisayarı ducimus balıkhaneye alias.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryName = "Home",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Quis voluptatem orta minima voluptatem dolorem qui masaya voluptatum bilgiyasayarı.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryName = "Garden",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Lambadaki aperiam tempora reprehenderit nostrum ex voluptatem sed quia voluptatem.",
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryName = "Movies",
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Nisi magnam çakıl ama vel reprehenderit voluptate okuma teldeki dicta.",
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("Project.Entities.Models.Order", b =>
@@ -352,11 +481,11 @@ namespace Project.Dal.Migrations
 
             modelBuilder.Entity("Project.Entities.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -367,6 +496,12 @@ namespace Project.Dal.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -376,9 +511,12 @@ namespace Project.Dal.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("money");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("OrderId", "ProductId")
+                        .IsUnique();
 
                     b.ToTable("OrderDetails");
                 });
@@ -425,6 +563,118 @@ namespace Project.Dal.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Sleek Fresh Chair",
+                            Status = 0,
+                            UnitPrice = 765.90m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Ergonomic Fresh Soap",
+                            Status = 0,
+                            UnitPrice = 572.61m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Practical Steel Mouse",
+                            Status = 0,
+                            UnitPrice = 140.81m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 4,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Tasty Steel Chair",
+                            Status = 0,
+                            UnitPrice = 761.11m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Gorgeous Cotton Pizza",
+                            Status = 0,
+                            UnitPrice = 99.98m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 6,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Ergonomic Frozen Ball",
+                            Status = 0,
+                            UnitPrice = 370.91m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 7,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Awesome Rubber Hat",
+                            Status = 0,
+                            UnitPrice = 772.82m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 8,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Licensed Frozen Tuna",
+                            Status = 0,
+                            UnitPrice = 868.98m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 9,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Sleek Fresh Salad",
+                            Status = 0,
+                            UnitPrice = 826.29m,
+                            UnitsInStock = 100
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 10,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20version%3D%221.1%22%20baseProfile%3D%22full%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22grey%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2250%22%20font-size%3D%2220%22%20alignment-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%3E100x100%3C%2Ftext%3E%3C%2Fsvg%3E",
+                            ProductName = "Generic Concrete Keyboard",
+                            Status = 0,
+                            UnitPrice = 533.27m,
+                            UnitsInStock = 100
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -482,9 +732,7 @@ namespace Project.Dal.Migrations
                 {
                     b.HasOne("Project.Entities.Models.AppUser", "AppUser")
                         .WithOne("AppUserProfile")
-                        .HasForeignKey("Project.Entities.Models.AppUserProfile", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Project.Entities.Models.AppUserProfile", "AppUserId");
 
                     b.Navigation("AppUser");
                 });
