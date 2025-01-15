@@ -10,5 +10,6 @@ namespace Project.Bll.Managers.Abstracts
 {
     public interface IOrderManager : IManager<OrderDto, Order>
     {
+        //void AddVat(OrderDto item);
     }
 }

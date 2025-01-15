@@ -19,5 +19,12 @@ namespace Project.Bll.Managers.Concretes
         {
             _repository = repository;
         }
+
+        public void AddVat(OrderDto item)
+        {
+            item.Price += item.Price * 0.18M;
+            Order order = _mapper.Map<Order>(item);
+            _repository.CreateAsync(order);
+        }
     }
 }

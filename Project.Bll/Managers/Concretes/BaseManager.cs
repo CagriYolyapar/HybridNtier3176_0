@@ -22,7 +22,7 @@ namespace Project.Bll.Managers.Concretes
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(T entity)
+        public async virtual Task CreateAsync(T entity)
         {
             entity.CreatedDate = DateTime.Now;
             entity.Status = Entities.Enums.DataStatus.Inserted;
