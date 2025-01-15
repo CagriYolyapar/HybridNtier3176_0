@@ -8,6 +8,7 @@ builder.Services.AddDbContextService();
 builder.Services.AddRepositoryService();
 builder.Services.AddIdentityService();
 builder.Services.AddMapperService();
+builder.Services.AddManagerService();
 
 
 

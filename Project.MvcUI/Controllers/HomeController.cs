@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Project.Bll.Managers.Abstracts;
 using Project.MvcUI.Models;
 using System.Diagnostics;
 
@@ -9,7 +10,9 @@ namespace Project.MvcUI.Controllers
        
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+       
+
+        public HomeController(ILogger<HomeController> logger,ICategoryManager categoryManager)
         {
             _logger = logger;
         }

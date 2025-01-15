@@ -9,5 +9,6 @@ namespace Project.Dal.Repositories.Abstracts
 {
     public interface IAppUserRepository : IRepository<AppUser>
     {
+        void Deneme();
     }
 }
