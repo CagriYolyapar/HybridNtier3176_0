@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextService();
 builder.Services.AddRepositoryService();
 builder.Services.AddIdentityService();
+builder.Services.AddMapperService();
 
 
 
