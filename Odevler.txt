@@ -1,0 +1,5 @@
+﻿1 => Entity'lerimizdeki Validation işlemlerini yapınız...(Bazı yerlerde bilerek Domain Entity kullanılacaktır...BU kısımları refactor edip (onları PureVM'e cekip) validationları onlar üzerinde de yapınız)
+
+2=> Identity sistemindeki yapıyı profesyonel bir şekilde refactor ediniz (Kendi Manager'inizi calıstırıp DTO ve VM sistemini profesyonel kullanarak)
+
+3=> PageVm refactoring
