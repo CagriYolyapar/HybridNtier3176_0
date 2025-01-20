@@ -39,7 +39,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-app.UseStaticFiles();
+app.UseStaticFiles(); //wwwroot klasorüne direkt ulasımınızı saglar
 
 app.UseRouting();
 
@@ -56,6 +56,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Register}/{id?}");
+    pattern: "{controller=Shopping}/{action=Index}/{id?}");
 
 app.Run();

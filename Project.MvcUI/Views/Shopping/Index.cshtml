@@ -1,0 +1,87 @@
+﻿@model ShoppingPageVm
+
+
+<div class="row">
+    <div class="col-md-3">
+        
+        <section class="panel">
+            <header class="panel-heading">
+                Kategoriler
+            </header>
+            <div class="panel-body">
+                <ul class="nav prod-cat">
+                  @foreach (Category item in Model.Categories)
+                    {
+                        <li style="padding-top:30px">
+                            <a asp-controller="Shopping" asp-action="Index" asp-route-categoryId="@item.Id">@item.CategoryName</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </section>
+       
+    </div>
+    <div class="col-md-9">
+        <section class="panel">
+            <div class="panel-body">
+                
+
+                <div class="pull-right">
+                    <ul class="pagination pagination-sm pro-page-list">
+                       
+
+                        @if(TempData["catId"]!= null)
+                        {
+                            <li>
+                                @Html.PagedListPager(Model.Products, page => Url.Action("Index",new{page,categoryId =TempData["catId"]}))
+                            </li>
+                        }
+                        else{
+                            @Html.PagedListPager(Model.Products,page => Url.Action("Index",new{page}))
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="row product-list">
+
+            @foreach(Product item in Model.Products){
+                <div class="col-md-4">
+
+                     <section class="panel">
+                        <div class="pro-img-box">
+                           <img src="@item.ImagePath" />
+                            <a asp-action="AddToCart" asp-route-id="@item.Id" class="adtocart">
+                                <i class="icon-shopping-cart"></i>
+                            </a>
+                        </div>
+
+                        <div class="panel-body text-center">
+                            <h4>
+                                @if(item.Category == null){
+                                     <a title="Kategorisiz" class="pro-title">
+                                   @item.ProductName
+                                </a>
+                                }
+                                else{
+                                    <a title="@item.Category.CategoryName" class="pro-title">
+                                        @item.ProductName
+                                    </a>
+                                }
+
+                              
+                            </h4>
+                            <p class="price">$@item.UnitPrice</p>
+                        </div>
+                    </section>
+                </div>
+            }
+
+          
+           
+        </div>
+    </div>
+</div>

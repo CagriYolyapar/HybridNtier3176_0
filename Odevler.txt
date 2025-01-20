@@ -3,3 +3,5 @@
 2=> Identity sistemindeki yapıyı profesyonel bir şekilde refactor ediniz (Kendi Manager'inizi calıstırıp DTO ve VM sistemini profesyonel kullanarak)
 
 3=> PageVm refactoring
+
+4 => Sistemi EAV'ye cevirin

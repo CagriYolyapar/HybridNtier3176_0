@@ -3,6 +3,7 @@ using Project.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace Project.Bll.Managers.Abstracts
         List<T> GetActives();
         List<T> GetPassives();
         List<T> GetModifieds();
+        List<T> Where(Expression<Func<U,bool>> exp);
 
         //Business Logic for Commands
         Task CreateAsync(T entity);

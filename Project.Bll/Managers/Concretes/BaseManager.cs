@@ -6,6 +6,7 @@ using Project.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -121,6 +122,12 @@ namespace Project.Bll.Managers.Concretes
         public async Task UpdateRangeAsync(List<T> list)
         {
             foreach(T item in list) await UpdateAsync(item);
+        }
+
+        public List<T> Where(Expression<Func<U, bool>> exp)
+        {
+            List<U> values = _repository.Where(exp).ToList();
+            return _mapper.Map<List<T>>(values);
         }
     }
 }

@@ -10,5 +10,8 @@ namespace Project.Bll.Managers.Abstracts
 {
     public interface IProductManager : IManager<ProductDto,Product>
     {
+        //Todo : !Sadece test amaclı yazılan metotlardır...Bir Manager size hicbir zaman Domain Entity döndürmez...Burada ek refactorler size bırakılmıstır
+        Task<List<Product>> GetDomainProducts();
+        List<Product> GetDomainProductsByCategoryId(int categoryId);
     }
 }

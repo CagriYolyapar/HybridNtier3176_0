@@ -1,0 +1,56 @@
+﻿@model List<Product>
+<section class="panel">
+    <header class="panel-heading">
+        DataTables hidden row details example
+    </header>
+    <div class="panel-body">
+        <div class="adv-table">
+            <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>ProductName</th>
+                        <th>Resmi</th>
+                        <th class="hidden-phone">UnitPrice</th>
+                        <th>Veri Durumu</th>
+                        <th class="hidden-phone">Güncelle</th>
+                        <th class="hidden-phone">Sil</th>
+                        <th>Pasifize</th>
+                    </tr>
+                </thead>
+
+
+
+
+
+
+                <tbody>
+
+
+                    @foreach (Product item in Model)
+                    {
+
+
+                        <tr class="gradeX">
+                            <td>@item.Id</td>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>  <img src="@item.ImagePath" width="50" height="50" />     </td>
+                            <td class="hidden-phone">@item.UnitPrice</td>
+                            <td>@item.Status</td>
+                            <td class="center hidden-phone"> <a asp-action="Update" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-warning">Guncelle</a>     </td>
+                            <td class="center hidden-phone"> <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>    </td>
+                            <td class="center hidden-phone"> <a asp-action="Pacify" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-danger">Pasife cek</a>    </td>
+                        </tr>
+
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>
