@@ -1,0 +1,53 @@
+﻿@model OrderRequestPageVm
+
+<form asp-controller="Shopping" asp-action="ConfirmOrder" method="post">
+
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Gonderim Adresi
+        </label>
+
+        <div class="10">
+            <input asp-for="Order.ShippingAddress" class="form-control" />
+        </div>
+    </div>
+
+
+     @if(!User.Identity.IsAuthenticated){
+        <div class="form-group">
+            <label class="col-2 control-label">
+                Email Adresi
+            </label>
+
+            <div class="10">
+                <input asp-for="Order.Email" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-2 control-label">
+                Isim Soyisim
+            </label>
+
+            <div class="10">
+                <input asp-for="Order.NameDescription" class="form-control" />
+            </div>
+        </div>
+
+
+     }
+
+
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Onaylamak icin tıklayınız
+        </label>
+
+        <div class="10">
+            <button class="btn btn-primary">Onayla</button>
+        </div>
+    </div>
+
+</form>

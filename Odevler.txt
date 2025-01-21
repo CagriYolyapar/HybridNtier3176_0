@@ -5,3 +5,7 @@
 3=> PageVm refactoring
 
 4 => Sistemi EAV'ye cevirin
+
+5 => Sepette kac ürün varsa pop up tarafından bunu sayı olarak yazan bir tasarım ekleyiniz
+
+6 => Sepet sayfasında(CartPage) görülen Sepetin amount'ını textbox ile güncelleyebilecek bir sistem yaratınız

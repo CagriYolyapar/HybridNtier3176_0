@@ -80,6 +80,11 @@ namespace Project.MvcUI.Controllers
             return HttpContext.Session.GetObject<Cart>(key);
         }
 
+        void ControlCart(Cart c)
+        {
+            if (c.GetCartItems.Count == 0) HttpContext.Session.Remove("scart");
+        }
+
         #endregion
         public async Task<IActionResult> AddToCart(int id)
         {
@@ -94,13 +99,107 @@ namespace Project.MvcUI.Controllers
                 UnitPrice = productToBeAdded.UnitPrice,
                 ImagePath = productToBeAdded.ImagePath,
                 CategoryId = productToBeAdded.CategoryId,
-                CategoryName = productToBeAdded.Category.CategoryName
+                CategoryName = productToBeAdded.Category == null ? "Kategorisi yok" : productToBeAdded.Category.CategoryName
             };
 
             c.AddToCart(ci);
 
             SetCartForSession(c);
             TempData["Message"] = $"{ci.ProductName} isimli ürün sepete eklenmiştir";
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult CartPage()
+        {
+            if (GetCartFromSession("scart") == null)
+            {
+                TempData["Message"] = "Sepetiniz su anda bos";
+                return RedirectToAction("Index");
+            }
+            Cart c = GetCartFromSession("scart");
+            return View(c);
+        }
+
+        //Asagıdaki Session ve Sepet işlemlerini refactor ediniz...
+        public IActionResult RemoveFromCart(int id)
+        {
+            if (GetCartFromSession("scart") != null)
+            {
+                Cart c = GetCartFromSession("scart");
+                c.RemoveFromCart(id);
+                SetCartForSession(c);
+                ControlCart(c);
+            }
+
+            return RedirectToAction("CartPage");
+        }
+
+        public IActionResult DecreaseFromCart(int id)
+        {
+            if (GetCartFromSession("scart") != null)
+            {
+                Cart c = GetCartFromSession("scart");
+                c.Decrease(id);
+                SetCartForSession(c);
+                ControlCart(c);
+            }
+            return RedirectToAction("CartPage");
+        }
+
+        public IActionResult IncreaseCartItem(int id)
+        {
+            if (GetCartFromSession("scart") != null)
+            {
+                Cart c = GetCartFromSession("scart");
+                c.IncreaseCartItem(id);
+                SetCartForSession(c);
+                ControlCart(c);
+            }
+
+            return RedirectToAction("CartPage");
+        }
+
+        public IActionResult ConfirmOrder()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmOrder(OrderRequestPageVm ovm)
+        {
+            Cart c = GetCartFromSession("scart");
+
+            //Todo: Payment Request işleminde price'i oraya entegre etmeliyiz
+            ovm.Order.Price = c.TotalPrice;
+
+            //ToDo: API Entegrasyonu
+            #region APIIntegration
+
+            #endregion
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                ovm.Order.AppUserId = appUser.Id;
+            }
+
+            OrderDto orderDto = _mapper.Map<OrderDto>(ovm.Order);
+            int orderId = await _orderManager.CreateOrderAndReturn(orderDto);
+
+            foreach (CartItem item in c.GetCartItems)
+            {
+                OrderDetail od = new();
+                od.OrderId = orderId;
+                od.ProductId = item.Id;
+                od.Quantity = item.Amount;
+                od.UnitPrice = item.UnitPrice;
+
+                await _orderDetailManager.CreateAsync(_mapper.Map<OrderDetailDto>(od));
+                //ürün stoktan düsmeli
+            }
+
+            TempData["Message"] = "Siparişiniz bize basarıyla ulasmıstır...Tesekkür ederiz";
+
+
             return RedirectToAction("Index");
         }
     }

@@ -24,6 +24,12 @@ namespace Project.MvcUI.Models.ShoppingTools
             }
         }
 
+        public void IncreaseCartItem(int id)
+        {
+            _myCart[id].Amount++;
+           
+        }
+
         public void AddToCart(CartItem item)
         {
             if (_myCart.ContainsKey(item.Id)) 

@@ -26,5 +26,14 @@ namespace Project.Bll.Managers.Concretes
             Order order = _mapper.Map<Order>(item);
             _repository.CreateAsync(order);
         }
+
+        public async Task<int> CreateOrderAndReturn(OrderDto item)
+        {
+            item.CreatedDate = DateTime.Now;
+            item.Status = Entities.Enums.DataStatus.Inserted;
+            Order domainEntity = _mapper.Map<Order>(item);
+            await _repository.CreateAsync(domainEntity);
+            return domainEntity.Id;
+        }
     }
 }

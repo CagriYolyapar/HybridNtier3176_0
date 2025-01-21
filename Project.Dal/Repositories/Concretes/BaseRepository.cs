@@ -16,7 +16,7 @@ namespace Project.Dal.Repositories.Concretes
         readonly MyContext _context;
         readonly DbSet<T> _dbSet;
 
-       
+
         public BaseRepository(MyContext context)
         {
             _context = context;
@@ -26,6 +26,7 @@ namespace Project.Dal.Repositories.Concretes
         public async Task CreateAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+
             await _context.SaveChangesAsync();
         }
 
