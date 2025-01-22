@@ -11,6 +11,7 @@ builder.Services.AddIdentityService();
 builder.Services.AddMapperService();
 builder.Services.AddManagerService();
 builder.Services.AddVmMapperService();
+builder.Services.AddHttpClient(); //Eger bir API consume edilecekse HTTP client tarafında oldugumuz ifadesini Middleware'e bildirmeliyiz...
 
 builder.Services.AddDistributedMemoryCache(); //Eger Session kompleks yapılarla calısmak icin Extension metodu ekleme durumuna maruz kalacaksa bu kod projenizin o ilgili Session alanını saglıklı calıstırabilmesi icin gereklidir...
 

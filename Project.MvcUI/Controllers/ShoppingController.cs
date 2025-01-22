@@ -10,6 +10,8 @@ using X.PagedList;
 using X.PagedList.Extensions;
 using Project.MvcUI.Models.SessionService;
 using Project.MvcUI.Models.ShoppingTools;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Project.MvcUI.Controllers
 {
@@ -21,11 +23,12 @@ namespace Project.MvcUI.Controllers
         readonly IOrderDetailManager _orderDetailManager;
         readonly UserManager<AppUser> _userManager;
         readonly IMapper _mapper;
+        readonly IHttpClientFactory _httpClientFactory;
 
 
 
 
-        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager, IOrderManager orderManager, IOrderDetailManager orderDetailManager, UserManager<AppUser> userManager, IMapper mapper)
+        public ShoppingController(IProductManager productManager, ICategoryManager categoryManager, IOrderManager orderManager, IOrderDetailManager orderDetailManager, UserManager<AppUser> userManager, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _productManager = productManager;
             _categoryManager = categoryManager;
@@ -33,7 +36,7 @@ namespace Project.MvcUI.Controllers
             _orderDetailManager = orderDetailManager;
             _userManager = userManager;
             _mapper = mapper;
-
+            _httpClientFactory = httpClientFactory;
         }
 
         //Todo Api icin IHttpClientFactory
@@ -169,38 +172,70 @@ namespace Project.MvcUI.Controllers
         {
             Cart c = GetCartFromSession("scart");
 
-            //Todo: Payment Request işleminde price'i oraya entegre etmeliyiz
-            ovm.Order.Price = c.TotalPrice;
+           
+            ovm.Order.Price = ovm.PaymentRequestModel.ShoppingPrice = c.TotalPrice;
 
-            //ToDo: API Entegrasyonu
+
+
+
+
             #region APIIntegration
 
-            #endregion
-            if (User.Identity.IsAuthenticated)
+            //http://localhost:5107/
+
+            //API Entegrasyonu
+
+            //API'yı consume etmek icin middleware'de ilk basta bir ayarlama yapmak zorundasınız...
+
+            HttpClient client = _httpClientFactory.CreateClient();
+            string jsonData = JsonConvert.SerializeObject(ovm.PaymentRequestModel);
+
+            //Content : icerik
+
+            StringContent content = new StringContent(jsonData,Encoding.UTF8,"application/json");
+
+           HttpResponseMessage responseMessage =  await client.PostAsync("http://localhost:5107/api/Transaction", content);
+
+            if (responseMessage.IsSuccessStatusCode)
             {
-                AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
-                ovm.Order.AppUserId = appUser.Id;
+                if (User.Identity.IsAuthenticated)
+                {
+                    AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                    ovm.Order.AppUserId = appUser.Id;
+                }
+
+                OrderDto orderDto = _mapper.Map<OrderDto>(ovm.Order);
+                int orderId = await _orderManager.CreateOrderAndReturn(orderDto);
+
+                foreach (CartItem item in c.GetCartItems)
+                {
+                    OrderDetail od = new();
+                    od.OrderId = orderId;
+                    od.ProductId = item.Id;
+                    od.Quantity = item.Amount;
+                    od.UnitPrice = item.UnitPrice;
+
+                    await _orderDetailManager.CreateAsync(_mapper.Map<OrderDetailDto>(od));
+                    //ürün stoktan düsmeli
+                }
+
+                TempData["Message"] = "Siparişiniz bize basarıyla ulasmıstır...Tesekkür ederiz";
+                HttpContext.Session.Remove("scart"); //Session'i silme kodu
+
+                return RedirectToAction("Index");
             }
 
-            OrderDto orderDto = _mapper.Map<OrderDto>(ovm.Order);
-            int orderId = await _orderManager.CreateOrderAndReturn(orderDto);
-
-            foreach (CartItem item in c.GetCartItems)
-            {
-                OrderDetail od = new();
-                od.OrderId = orderId;
-                od.ProductId = item.Id;
-                od.Quantity = item.Amount;
-                od.UnitPrice = item.UnitPrice;
-
-                await _orderDetailManager.CreateAsync(_mapper.Map<OrderDetailDto>(od));
-                //ürün stoktan düsmeli
-            }
-
-            TempData["Message"] = "Siparişiniz bize basarıyla ulasmıstır...Tesekkür ederiz";
-
-
+            string result = await responseMessage.Content.ReadAsStringAsync();
+            TempData["Message"] = result;
             return RedirectToAction("Index");
+
+            #endregion
+
+
+
+
+
+           
         }
     }
 }

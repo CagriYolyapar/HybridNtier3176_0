@@ -38,6 +38,55 @@
 
      }
 
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Kart Numarası
+        </label>
+
+        <div class="10">
+            <input asp-for="PaymentRequestModel.CardNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            CVV
+        </label>
+
+        <div class="10">
+            <input asp-for="PaymentRequestModel.CVV" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Gecerlilik Süresi(Yıl)
+        </label>
+
+        <div class="10">
+            <input asp-for="PaymentRequestModel.ExpiryYear" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Gecerlilik Süresi(Ay)
+        </label>
+
+        <div class="10">
+            <input asp-for="PaymentRequestModel.ExpiryMonth" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-2 control-label">
+            Kart üzerindeki isim
+        </label>
+
+        <div class="10">
+            <input asp-for="PaymentRequestModel.CardUserName" class="form-control" />
+        </div>
+    </div>
 
 
     <div class="form-group">
